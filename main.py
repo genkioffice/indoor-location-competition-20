@@ -23,6 +23,7 @@ ibeacon_image_save_dir = save_dir + '/ibeacon_images'
 wifi_count_image_save_dir = save_dir
 
 
+# this function uses waypoint data for calcuration
 def calibrate_magnetic_wifi_ibeacon_to_position(path_file_list):
     mwi_datas = {}
     for path_filename in path_file_list:
@@ -41,7 +42,10 @@ def calibrate_magnetic_wifi_ibeacon_to_position(path_file_list):
         # visualize_trajectory(step_positions[:, 1:3], floor_plan_filename, width_meter, height_meter, title='Step Position', show=True)
 
         if wifi_datas.size != 0:
+            # sep_tss is timestamp of wifi
             sep_tss = np.unique(wifi_datas[:, 0].astype(float))
+
+            # 2d array of wifi devided by timestamp.
             wifi_datas_list = split_ts_seq(wifi_datas, sep_tss)
             for wifi_ds in wifi_datas_list:
                 diff = np.abs(step_positions[:, 0] - float(wifi_ds[0, 0]))
@@ -139,7 +143,7 @@ def extract_ibeacon_rssi(mwi_datas):
         for ibeacon_d in ibeacon_data:
             ummid = ibeacon_d[1]
             rssi = int(ibeacon_d[2])
-
+            # ibeacon_rssiにkeyが存在するかチェックしている
             if ummid in ibeacon_rssi:
                 position_rssi = ibeacon_rssi[ummid]
                 if position_key in position_rssi:
@@ -228,7 +232,7 @@ if __name__ == "__main__":
     html_filename = str(Path(html_filename).resolve())
     save_figure_to_html(fig, html_filename)
 
-    ibeacon_rssi = extract_ibeacon_rssi(mwi_datas)
+    ibeacon_rcompute_stepsssi = extract_ibeacon_rssi(mwi_datas)
     print(f'This floor has {len(ibeacon_rssi.keys())} ibeacons')
     ten_ibeacon_ummids = list(ibeacon_rssi.keys())[0:10]
     print('Example 10 ibeacon UUID_MajorID_MinorIDs:\n')

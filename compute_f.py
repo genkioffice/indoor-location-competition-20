@@ -4,16 +4,21 @@ import scipy.signal as signal
 
 def split_ts_seq(ts_seq, sep_ts):
     """
+    structuralize property based on its timestamp.
 
     :param ts_seq:
+        property data itself
     :param sep_ts:
+        unique timestamp of property data(ex. wifi)
     :return:
     """
+    # ununique timestamp of property data
     tss = ts_seq[:, 0].astype(float)
     unique_sep_ts = np.unique(sep_ts)
     ts_seqs = []
     start_index = 0
     for i in range(0, unique_sep_ts.shape[0]):
+        
         end_index = np.searchsorted(tss, unique_sep_ts[i], side='right')
         if start_index == end_index:
             continue
@@ -69,9 +74,12 @@ def correct_positions(rel_positions, reference_positions):
     """
 
     :param rel_positions:
+        data from accelerometer
     :param reference_positions:
+        waypoint data
     :return:
     """
+
     rel_positions_list = split_ts_seq(rel_positions, reference_positions[:, 0])
     if len(rel_positions_list) != reference_positions.shape[0] - 1:
         # print(f'Rel positions list size: {len(rel_positions_list)}, ref positions size: {reference_positions.shape[0]}')

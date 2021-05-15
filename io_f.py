@@ -18,6 +18,12 @@ class ReadData:
 
 
 def read_data_file(data_filename):
+    '''
+    this data has a structure which contains following TYPE_* data as properties.
+
+    format:
+        all the property has its timestamp at the first position.    
+    '''
     acce = []
     acce_uncali = []
     gyro = []

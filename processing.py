@@ -83,7 +83,6 @@ SUBMISSION_SITES = {
     '5dc8cea7659e181adb076a3f'
 }
 
-
 def create_magnetic_features(paths:list, floorNo:str, site:str):
     '''
         params:
